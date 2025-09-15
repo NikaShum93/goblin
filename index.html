@@ -3,260 +3,347 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Gnoblin's Bank Interview — Would You Rather</title>
+<title>Gnoblin’s Bank Interview — Would You Rather?</title>
 <style>
   :root{
-    --bg:#1b1a17;
-    --ink:#2a210e;
-    --gold:#e1b866;
-    --gold2:#c99b4f;
-    --btn:#2f2819;
-    --btnH:#3f3622;
-    --ok:#2aa772;
-    --warn:#e58a2b;
-    --bad:#c84747;
+    --bg:#13100d;
+    --stone:#1e1a15;
+    --parch:#f3e6c4;
+    --ink:#2b2316;
+    --gold:#e2bf6a;
+    --gold2:#c79a4e;
+    --accent:#5ccba7;
+    --warn:#f1a13b;
+    --bad:#d45454;
   }
-  html,body{height:100%;margin:0;background:radial-gradient(1200px 600px at 20% 0%, #2b2619, #151311) fixed;}
-  *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
-  .wrap{
-    max-width:900px; margin:0 auto; padding:18px; color:#f7f1e3;
-  }
+  html,body{height:100%;margin:0;background:
+    radial-gradient(1200px 600px at 20% 0%, #2a2417, #0e0c0a) fixed;}
+  *{box-sizing:border-box;font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
+  .wrap{max-width:980px;margin:0 auto;padding:18px}
   .card{
-    position:relative;
-    background: linear-gradient(#f0e2c0,#e4d0a0 60%,#d5c18f);
-    color:var(--ink);
-    border-radius:18px;
-    padding:18px 18px 22px;
-    box-shadow:0 16px 40px #0009, inset 0 2px 0 #fff6, inset 0 -3px 0 #0002;
+    background: linear-gradient(#f0e7cf,#e5d3a7 60%,#d6c394);
+    color:var(--ink); border-radius:20px; padding:18px 18px 22px;
     border:3px solid var(--gold2);
+    box-shadow:0 18px 44px #0009, inset 0 2px 0 #fff6, inset 0 -3px 0 #0002;
+    position:relative;
   }
-  .header{
-    display:flex; gap:16px; align-items:center; margin-bottom:10px
-  }
-  .avatar{
-    width:110px; height:110px; border-radius:14px; overflow:hidden; flex:0 0 auto; 
-    border:3px solid var(--gold2); box-shadow:0 6px 18px #0006
-  }
+  .head{display:flex;gap:16px;align-items:center}
+  .avatar{width:110px;height:110px;border-radius:14px;overflow:hidden;flex:0 0 auto;
+    border:3px solid var(--gold2);box-shadow:0 6px 18px #0006;background:#0002}
   .avatar img{width:100%;height:100%;object-fit:cover}
-  .title{
-    font-size:26px; line-height:1.1; font-weight:800; letter-spacing:.2px;
-    text-shadow:0 1px 0 #fff7;
+  h1{font-size:24px;margin:0 0 4px;line-height:1.1;letter-spacing:.2px}
+  .sub{opacity:.7;font-weight:700}
+  .toolbar{
+    margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center
   }
-  .parchment{
-    background: repeating-linear-gradient(180deg,#0000 0 28px,#00000008 28px 29px),
-                linear-gradient(#fff9,#fff0), 
-                linear-gradient(#fef6d8,#eedaa8);
-    border:2px dashed #a88542; border-radius:14px; padding:14px; margin:10px 0 16px;
+  .pill{
+    border:2px solid var(--gold2);background:linear-gradient(#3a311e,#2c2517);
+    color:#f6efd9;border-radius:999px;padding:8px 14px;font-weight:800;cursor:pointer;
+    box-shadow:0 4px 0 #0007, inset 0 0 0 1px #fff2;letter-spacing:.2px
   }
-  .q{
-    font-size:22px; font-weight:800; margin:4px 0 10px; letter-spacing:.2px;
-  }
-
-  .opts{ display:grid; gap:10px; grid-template-columns:1fr; }
-  .opt{
-    border:2px solid var(--gold2); background:linear-gradient(#fff,#f7ebc9);
-    color:#2b2314; border-radius:12px; padding:14px 14px;
-    box-shadow:0 4px 0 #a78139; cursor:pointer; text-align:left; font-size:18px; font-weight:700
-  }
-  .opt:hover{transform:translateY(-1px); background:linear-gradient(#fff,#f1e1b8)}
-  .opt:active{transform:translateY(1px)}
-  .meter{
-    margin-top:10px; display:flex; gap:8px; align-items:center; font-size:14px; font-weight:700; color:#4a3b19
-  }
-  .bar{height:10px; background:#0002; border:1px solid #a58542; border-radius:8px; overflow:hidden; flex:1}
-  .fill{height:100%; background:linear-gradient(90deg,var(--gold),var(--gold2)); width:0%}
-  .aside{
-    margin-top:8px; font-size:14px; color:#6b5526
-  }
-  .foot{
-    display:flex; gap:10px; flex-wrap:wrap; justify-content:space-between; align-items:center; margin-top:10px
-  }
-  .ghost{opacity:.7}
-  .btn{
-    border:2px solid var(--gold2); background:linear-gradient(#392f1b,#2c2516);
-    color:#f8f0d8; border-radius:12px; padding:10px 14px; font-size:16px; font-weight:800; cursor:pointer;
-    box-shadow:0 4px 0 #0007, inset 0 0 0 1px #fff2; letter-spacing:.3px
-  }
-  .btn:hover{background:linear-gradient(#44371d,#2f2617)}
-  .btn:active{transform:translateY(1px)}
-  .pill{border-radius:999px;padding:8px 12px}
+  .pill:hover{filter:brightness(1.06)}
+  .pill[aria-pressed="true"]{outline:3px solid var(--accent)}
   .muted{opacity:.6}
-  /* result styles */
-  .ending{
-    border-left:8px solid; margin-top:14px; padding-left:12px; border-radius:10px
+  .screen{
+    margin-top:14px;background:
+      repeating-linear-gradient(180deg,#0000 0 28px,#00000010 28px 29px),
+      linear-gradient(#fff9,#fff0),
+      linear-gradient(#fff4d6,#ecd39c);
+    border:2px dashed #a88341;border-radius:16px;padding:16px;
   }
-  .good{border-color:var(--ok)}
+  .q{font-size:20px;font-weight:800;margin:0 0 10px}
+  .opts{display:grid;gap:10px;grid-template-columns:1fr}
+  .opt{
+    text-align:left;border:2px solid var(--gold2);border-radius:12px;
+    background:linear-gradient(#fff,#f7eac8);padding:14px;font-size:18px;font-weight:800;
+    cursor:pointer;box-shadow:0 4px 0 #a78139;color:#2b2314
+  }
+  .opt:hover{transform:translateY(-1px)}
+  .opt:active{transform:translateY(1px)}
+  .frame{
+    margin-top:6px;font-size:14px;padding:8px 10px;border-radius:10px;
+    background: #fff5; border:1px dashed #a88341; color:#4b3c1f; font-weight:700;
+    display:none;
+  }
+  .teacher-on .frame{display:block}
+  .meter{display:flex;gap:8px;align-items:center;margin-top:10px;font-weight:800;color:#4b3c1f}
+  .bar{height:10px;background:#0002;border:1px solid #a58542;border-radius:8px;overflow:hidden;flex:1}
+  .fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0%}
+  .aside{margin-top:6px;font-size:14px;color:#6b5526}
+  .ending{border-left:8px solid;margin-top:10px;padding-left:12px;border-radius:10px}
+  .good{border-color:var(--accent)}
   .neutral{border-color:var(--warn)}
   .bad{border-color:var(--bad)}
   .ending h3{margin:.2rem 0}
-  .small{font-size:14px}
+  .blist{margin:.4rem 0 0 1.2rem}
+  .ghost{opacity:.7}
+  .foot{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:10px}
   .sr{position:absolute;left:-9999px}
+  @media (min-width:760px){
+    .opts{grid-template-columns:1fr 1fr}
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="card" id="app" role="region" aria-live="polite">
-    <div class="header">
-      <div class="avatar"><img id="avatar" alt="Gnoblin the banker"></div>
-      <div class="title">Gnoblin’s Bank Interview<br><span class="ghost" style="font-weight:700;font-size:16px">Would you rather…?</span></div>
+    <div class="head">
+      <div class="avatar"><img id="avatar" alt="Gnoblin"></div>
+      <div>
+        <h1>Gnoblin’s Bank Interview</h1>
+        <div class="sub">Would you rather…?</div>
+        <div class="toolbar">
+          <button id="teacher" class="pill" aria-pressed="true" title="Toggle Teacher Mode">Teacher Mode</button>
+          <button id="restart" class="pill" title="Restart">Restart</button>
+          <span class="muted">Answer to shape the future bank.</span>
+        </div>
+      </div>
     </div>
 
-    <div class="parchment" id="screen"></div>
+    <div id="screen" class="screen"></div>
 
     <div class="foot">
-      <button class="btn pill" id="restart" style="display:none">Restart</button>
-      <div class="aside" id="aside">Answer to shape the future bank!</div>
+      <span class="muted" id="tally"></span>
+      <span class="muted" id="progress"></span>
     </div>
   </div>
 </div>
 
 <script>
 /* ===================== CONFIG ===================== */
-// Put the goblin image URL here:
-const GNOBLIN_IMG = "https://raw.githubusercontent.com/placeholder/gnoblin.png"; // replace with your PNG of Gnoblin
+// Gnoblin image (PNG with transparent background)
+const GNOBLIN_IMG = "https://i.postimg.cc/vDFw7s2m/Chat-GPT-Image-15-2025-13-43-32.png";
 
-// Questions. Each option adds points to one of three houses (endings):
-// GUILD = honest bank, HOARD = greedy bank, HEX = chaotic magic bank
+// Ten A2 questions — BOTH options are tempting.
+// Each option has ONLY a grammar frame (no content) for Teacher Mode.
 const QUESTIONS = [
   {
-    text: "Would you rather set low fees for everyone, or high fees for quick service?",
+    text: "Would you rather keep treasure in a chest or magic in a book?",
     options: [
-      { label: "Low fees for all citizens", score: "GUILD", tip: "I'd rather keep banking fair." },
-      { label: "High fees for faster service", score: "HOARD", tip: "I'd rather earn more coins." },
-      { label: "Fees change with moon phases", score: "HEX", tip: "I'd rather make it… mysterious." }
+      { label: "Chest", frame: "I would rather…", score: "GUILD" },
+      { label: "Book",  frame: "There might be…", score: "HEX" }
     ]
   },
   {
-    text: "Would you rather accept coins or magical items as payment?",
+    text: "Would you rather invite someone who brings gold or someone who knows secrets?",
     options: [
-      { label: "Only coins (countable & clean)", score: "GUILD" },
-      { label: "Coins and jewels and more coins!", score: "HOARD" },
-      { label: "Cursed rings, singing stones, glowing frogs", score: "HEX" }
+      { label: "Gold bringer",   frame: "Someone might…", score: "HOARD" },
+      { label: "Secret keeper",  frame: "I may…",         score: "HEX" }
     ]
   },
   {
-    text: "Would you rather hire scribes or treasure hunters?",
+    text: "Would you rather protect all treasure or only one rare thing?",
     options: [
-      { label: "Scribes to check every receipt", score: "GUILD" },
-      { label: "Treasure hunters to bring more gold", score: "HOARD" },
-      { label: "Wizards to multiply money… maybe", score: "HEX" }
+      { label: "All treasure",  frame: "Everyone may…", score: "GUILD" },
+      { label: "Rare thing",    frame: "It might…",     score: "HOARD" }
     ]
   },
   {
-    text: "Would you rather keep customers’ money safe or make it grow fast?",
+    text: "Would you rather give any jewel people like or some coins every day?",
     options: [
-      { label: "Safe and steady", score: "GUILD" },
-      { label: "Grow fast — risk accepted!", score: "HOARD" },
-      { label: "Let the vault decide (it’s alive)", score: "HEX" }
+      { label: "Any jewel",         frame: "Anyone may…",       score: "HOARD" },
+      { label: "Coins every day",   frame: "Something might…",  score: "GUILD" }
+    ]
+  },
+  {
+    text: "Would you rather let everyone in the town use the bank or only one group?",
+    options: [
+      { label: "Everyone in town", frame: "Everyone might…", score: "GUILD" },
+      { label: "One special group",frame: "Someone may…",    score: "HOARD" }
+    ]
+  },
+  {
+    text: "Would you rather fill the vault with gold or with magic?",
+    options: [
+      { label: "Gold",   frame: "There may be…", score: "HOARD" },
+      { label: "Magic",  frame: "It might…",     score: "HEX" }
+    ]
+  },
+  {
+    text: "Would you rather get help from guards or advice from a wizard?",
+    options: [
+      { label: "Guards",  frame: "Someone might…", score: "GUILD" },
+      { label: "Wizard",  frame: "I may…",         score: "HEX" }
+    ]
+  },
+  {
+    text: "Would you rather guard every vault or only one secret room?",
+    options: [
+      { label: "Every vault",    frame: "There might not be…", score: "GUILD" },
+      { label: "One secret room",frame: "Something may…",      score: "HEX" }
+    ]
+  },
+  {
+    text: "Would you rather show visitors magic or tell them a mystery?",
+    options: [
+      { label: "Show magic",   frame: "Everyone may…",  score: "HEX" },
+      { label: "Tell mystery", frame: "Anyone might…",  score: "GUILD" }
+    ]
+  },
+  {
+    text: "Would you rather give treasure to someone you trust or share it with everyone?",
+    options: [
+      { label: "Trusted person", frame: "That person may…", score: "GUILD" },
+      { label: "Everyone",       frame: "Everyone might…",  score: "HEX" }
     ]
   }
 ];
 
-// Endings text
+// Three endings with A2-friendly descriptions (look + actions).
 const ENDINGS = {
   GUILD: {
     title: "Honest Guild Bank",
     mood: "good",
-    text: "Gnoblin bows. “Reliable, fair, and calm. Citizens trust you with their savings.”\nSpeaking challenge: Explain why you’d rather keep fees low and money safe."
+    look: [
+      "There are strong guards and clear rules.",
+      "There aren’t any tricks.",
+      "There are enough desks and chairs."
+    ],
+    can: [
+      "You may save money in a safe vault.",
+      "You can borrow a small loan.",
+      "You might meet someone helpful."
+    ]
   },
   HOARD: {
     title: "Greedy Hoard Bank",
     mood: "bad",
-    text: "Gnoblin grins wide. “Shiny, shiny profits! Your vault is overflowing with coins.”\nSpeaking challenge: Defend your choice — why would you rather make bigger profits?"
+    look: [
+      "There are too many coins on the floor.",
+      "There isn’t enough space for everyone.",
+      "The hall is shiny and crowded."
+    ],
+    can: [
+      "You may buy jewels and sell treasure fast.",
+      "You might pay too much in fees.",
+      "Someone may try to take your gold."
+    ]
   },
   HEX: {
     title: "Chaotic Hex Bank",
     mood: "neutral",
-    text: "Gnoblin cackles. “Enchantments! Sometimes riches, sometimes frogs.”\nSpeaking challenge: Would you rather accept magic risks or keep things stable? Why?"
+    look: [
+      "There is something strange in every room.",
+      "Sometimes there is too much magic, sometimes not enough logic.",
+      "The vault glows; doors move at night."
+    ],
+    can: [
+      "You can trade magic items.",
+      "You may ask a wizard for advice.",
+      "Anything might happen; the rules may change."
+    ]
   }
 };
 
-/* ================ ENGINE (no edits needed) ================ */
-const el = (sel)=>document.querySelector(sel);
+/* ===================== ENGINE ===================== */
+const el = sel => document.querySelector(sel);
+const app = el('#app');
 const screen = el('#screen');
+const tally = el('#tally');
+const progressEl = el('#progress');
 const avatar = el('#avatar');
 avatar.src = GNOBLIN_IMG;
 
 let step = 0;
 const score = { GUILD:0, HOARD:0, HEX:0 };
+let teacherMode = true;
 
 function renderQuestion(){
   const q = QUESTIONS[step];
   const total = QUESTIONS.length;
+  const pct = Math.round(step/total*100);
+
+  screen.classList.toggle('teacher-on', teacherMode);
+
   screen.innerHTML = `
-    <div class="q" aria-live="polite">Gnoblin: ${q.text}</div>
+    <div class="q">Gnoblin: ${q.text}</div>
     <div class="opts">
       ${q.options.map((o,i)=>`
         <button class="opt" data-i="${i}">
-          <span>${o.label}</span>
-          <div class="small muted">Start with: <em>I’d rather…</em></div>
+          ${o.label}
+          <div class="frame" aria-hidden="${!teacherMode}">
+            ${o.frame}
+          </div>
         </button>
       `).join('')}
     </div>
-    <div class="meter"><div>Progress</div>
-      <div class="bar"><div class="fill" style="width:${Math.round(step/total*100)}%"></div></div>
+    <div class="meter">
+      <div>Progress</div>
+      <div class="bar"><div class="fill" style="width:${pct}%"></div></div>
       <div>${step}/${total}</div>
     </div>
   `;
+
   screen.querySelectorAll('.opt').forEach(btn=>{
     btn.addEventListener('click',()=>{
       const idx = +btn.dataset.i;
       const opt = q.options[idx];
-      score[opt.score]++; 
-      // small feedback line for teacher use
-      el('#aside').textContent = opt.tip ? opt.tip : "Good choice!";
+      score[opt.score]++;
       step++;
+      updateHud();
       if(step>=QUESTIONS.length) showEnding();
       else renderQuestion();
     });
   });
 }
 
+function updateHud(){
+  tally.textContent = `Guild: ${score.GUILD} • Hoard: ${score.HOARD} • Hex: ${score.HEX}`;
+  progressEl.textContent = `Q${Math.min(step+1, QUESTIONS.length)} of ${QUESTIONS.length}`;
+}
+
 function bestEnding(){
-  const pairs = Object.entries(score).sort((a,b)=>b[1]-a[1]);
-  // if tie, HEX wins if present (more fun), else first
-  const [top, second] = pairs;
+  const arr = Object.entries(score).sort((a,b)=>b[1]-a[1]);
+  const [top, second] = arr;
   if(second && top[1]===second[1]){
+    // tie-break: HEX > GUILD > HOARD for fun
     if(score.HEX===top[1]) return "HEX";
+    if(score.GUILD===top[1]) return "GUILD";
+    return "HOARD";
   }
   return top[0];
+}
+
+function list(items){
+  return `<ul class="blist">${items.map(x=>`<li>${x}</li>`).join('')}</ul>`;
 }
 
 function showEnding(){
   const key = bestEnding();
   const end = ENDINGS[key];
   const moodClass = end.mood==='good' ? 'good' : end.mood==='bad' ? 'bad' : 'neutral';
-
-  const tally = `
-    <div class="small muted">Your tally — Guild: ${score.GUILD} • Hoard: ${score.HOARD} • Hex: ${score.HEX}</div>
-  `;
+  screen.classList.remove('teacher-on');
 
   screen.innerHTML = `
     <div class="q">Gnoblin: “The interview is complete!”</div>
     <div class="ending ${moodClass}">
       <h3>${end.title}</h3>
-      <p>${end.text.replace(/\n/g,'<br>')}</p>
+      <div class="ghost">How it looks:</div>
+      ${list(end.look)}
+      <div class="ghost">What you can do there:</div>
+      ${list(end.can)}
     </div>
-    ${tally}
-    <div class="parchment" style="margin-top:12px">
-      <strong>Follow-up speaking tasks</strong>
-      <ol>
-        <li>Would you rather pay <em>fees</em> or wait longer? Why?</li>
-        <li>Use <em>too much / too many / not enough</em> to describe the vault. Example: “There are too many coins for one chest.”</li>
-        <li>Make one Present Perfect line about your banking experience: “I’ve never invested in magic.”</li>
-      </ol>
+    <div class="ghost" style="margin-top:10px">
+      Use your own sentences with the frames you practiced.
     </div>
   `;
-  el('#restart').style.display='inline-block';
 }
 
-el('#restart').addEventListener('click',()=>{
+function resetAll(){
   step=0; score.GUILD=0; score.HOARD=0; score.HEX=0;
-  el('#aside').textContent = "Answer to shape the future bank!";
+  updateHud(); renderQuestion();
+}
+
+/* ====== UI controls ====== */
+el('#teacher').addEventListener('click',()=>{
+  teacherMode = !teacherMode;
+  el('#teacher').setAttribute('aria-pressed', String(teacherMode));
   renderQuestion();
 });
+el('#restart').addEventListener('click', resetAll);
 
 /* init */
+updateHud();
 renderQuestion();
 </script>
 </body>
