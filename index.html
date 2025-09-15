@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Gnoblin's Bank Interview — Would You Rather</title>
+<style>
+  :root{
+    --bg:#1b1a17;
+    --ink:#2a210e;
+    --gold:#e1b866;
+    --gold2:#c99b4f;
+    --btn:#2f2819;
+    --btnH:#3f3622;
+    --ok:#2aa772;
+    --warn:#e58a2b;
+    --bad:#c84747;
+  }
+  html,body{height:100%;margin:0;background:radial-gradient(1200px 600px at 20% 0%, #2b2619, #151311) fixed;}
+  *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
+  .wrap{
+    max-width:900px; margin:0 auto; padding:18px; color:#f7f1e3;
+  }
+  .card{
+    position:relative;
+    background: linear-gradient(#f0e2c0,#e4d0a0 60%,#d5c18f);
+    color:var(--ink);
+    border-radius:18px;
+    padding:18px 18px 22px;
+    box-shadow:0 16px 40px #0009, inset 0 2px 0 #fff6, inset 0 -3px 0 #0002;
+    border:3px solid var(--gold2);
+  }
+  .header{
+    display:flex; gap:16px; align-items:center; margin-bottom:10px
+  }
+  .avatar{
+    width:110px; height:110px; border-radius:14px; overflow:hidden; flex:0 0 auto; 
+    border:3px solid var(--gold2); box-shadow:0 6px 18px #0006
+  }
+  .avatar img{width:100%;height:100%;object-fit:cover}
+  .title{
+    font-size:26px; line-height:1.1; font-weight:800; letter-spacing:.2px;
+    text-shadow:0 1px 0 #fff7;
+  }
+  .parchment{
+    background: repeating-linear-gradient(180deg,#0000 0 28px,#00000008 28px 29px),
+                linear-gradient(#fff9,#fff0), 
+                linear-gradient(#fef6d8,#eedaa8);
+    border:2px dashed #a88542; border-radius:14px; padding:14px; margin:10px 0 16px;
+  }
+  .q{
+    font-size:22px; font-weight:800; margin:4px 0 10px; letter-spacing:.2px;
+  }
+
+  .opts{ display:grid; gap:10px; grid-template-columns:1fr; }
+  .opt{
+    border:2px solid var(--gold2); background:linear-gradient(#fff,#f7ebc9);
+    color:#2b2314; border-radius:12px; padding:14px 14px;
+    box-shadow:0 4px 0 #a78139; cursor:pointer; text-align:left; font-size:18px; font-weight:700
+  }
+  .opt:hover{transform:translateY(-1px); background:linear-gradient(#fff,#f1e1b8)}
+  .opt:active{transform:translateY(1px)}
+  .meter{
+    margin-top:10px; display:flex; gap:8px; align-items:center; font-size:14px; font-weight:700; color:#4a3b19
+  }
+  .bar{height:10px; background:#0002; border:1px solid #a58542; border-radius:8px; overflow:hidden; flex:1}
+  .fill{height:100%; background:linear-gradient(90deg,var(--gold),var(--gold2)); width:0%}
+  .aside{
+    margin-top:8px; font-size:14px; color:#6b5526
+  }
+  .foot{
+    display:flex; gap:10px; flex-wrap:wrap; justify-content:space-between; align-items:center; margin-top:10px
+  }
+  .ghost{opacity:.7}
+  .btn{
+    border:2px solid var(--gold2); background:linear-gradient(#392f1b,#2c2516);
+    color:#f8f0d8; border-radius:12px; padding:10px 14px; font-size:16px; font-weight:800; cursor:pointer;
+    box-shadow:0 4px 0 #0007, inset 0 0 0 1px #fff2; letter-spacing:.3px
+  }
+  .btn:hover{background:linear-gradient(#44371d,#2f2617)}
+  .btn:active{transform:translateY(1px)}
+  .pill{border-radius:999px;padding:8px 12px}
+  .muted{opacity:.6}
+  /* result styles */
+  .ending{
+    border-left:8px solid; margin-top:14px; padding-left:12px; border-radius:10px
+  }
+  .good{border-color:var(--ok)}
+  .neutral{border-color:var(--warn)}
+  .bad{border-color:var(--bad)}
+  .ending h3{margin:.2rem 0}
+  .small{font-size:14px}
+  .sr{position:absolute;left:-9999px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card" id="app" role="region" aria-live="polite">
+    <div class="header">
+      <div class="avatar"><img id="avatar" alt="Gnoblin the banker"></div>
+      <div class="title">Gnoblin’s Bank Interview<br><span class="ghost" style="font-weight:700;font-size:16px">Would you rather…?</span></div>
+    </div>
+
+    <div class="parchment" id="screen"></div>
+
+    <div class="foot">
+      <button class="btn pill" id="restart" style="display:none">Restart</button>
+      <div class="aside" id="aside">Answer to shape the future bank!</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===================== CONFIG ===================== */
+// Put the goblin image URL here:
+const GNOBLIN_IMG = "https://raw.githubusercontent.com/placeholder/gnoblin.png"; // replace with your PNG of Gnoblin
+
+// Questions. Each option adds points to one of three houses (endings):
+// GUILD = honest bank, HOARD = greedy bank, HEX = chaotic magic bank
+const QUESTIONS = [
+  {
+    text: "Would you rather set low fees for everyone, or high fees for quick service?",
+    options: [
+      { label: "Low fees for all citizens", score: "GUILD", tip: "I'd rather keep banking fair." },
+      { label: "High fees for faster service", score: "HOARD", tip: "I'd rather earn more coins." },
+      { label: "Fees change with moon phases", score: "HEX", tip: "I'd rather make it… mysterious." }
+    ]
+  },
+  {
+    text: "Would you rather accept coins or magical items as payment?",
+    options: [
+      { label: "Only coins (countable & clean)", score: "GUILD" },
+      { label: "Coins and jewels and more coins!", score: "HOARD" },
+      { label: "Cursed rings, singing stones, glowing frogs", score: "HEX" }
+    ]
+  },
+  {
+    text: "Would you rather hire scribes or treasure hunters?",
+    options: [
+      { label: "Scribes to check every receipt", score: "GUILD" },
+      { label: "Treasure hunters to bring more gold", score: "HOARD" },
+      { label: "Wizards to multiply money… maybe", score: "HEX" }
+    ]
+  },
+  {
+    text: "Would you rather keep customers’ money safe or make it grow fast?",
+    options: [
+      { label: "Safe and steady", score: "GUILD" },
+      { label: "Grow fast — risk accepted!", score: "HOARD" },
+      { label: "Let the vault decide (it’s alive)", score: "HEX" }
+    ]
+  }
+];
+
+// Endings text
+const ENDINGS = {
+  GUILD: {
+    title: "Honest Guild Bank",
+    mood: "good",
+    text: "Gnoblin bows. “Reliable, fair, and calm. Citizens trust you with their savings.”\nSpeaking challenge: Explain why you’d rather keep fees low and money safe."
+  },
+  HOARD: {
+    title: "Greedy Hoard Bank",
+    mood: "bad",
+    text: "Gnoblin grins wide. “Shiny, shiny profits! Your vault is overflowing with coins.”\nSpeaking challenge: Defend your choice — why would you rather make bigger profits?"
+  },
+  HEX: {
+    title: "Chaotic Hex Bank",
+    mood: "neutral",
+    text: "Gnoblin cackles. “Enchantments! Sometimes riches, sometimes frogs.”\nSpeaking challenge: Would you rather accept magic risks or keep things stable? Why?"
+  }
+};
+
+/* ================ ENGINE (no edits needed) ================ */
+const el = (sel)=>document.querySelector(sel);
+const screen = el('#screen');
+const avatar = el('#avatar');
+avatar.src = GNOBLIN_IMG;
+
+let step = 0;
+const score = { GUILD:0, HOARD:0, HEX:0 };
+
+function renderQuestion(){
+  const q = QUESTIONS[step];
+  const total = QUESTIONS.length;
+  screen.innerHTML = `
+    <div class="q" aria-live="polite">Gnoblin: ${q.text}</div>
+    <div class="opts">
+      ${q.options.map((o,i)=>`
+        <button class="opt" data-i="${i}">
+          <span>${o.label}</span>
+          <div class="small muted">Start with: <em>I’d rather…</em></div>
+        </button>
+      `).join('')}
+    </div>
+    <div class="meter"><div>Progress</div>
+      <div class="bar"><div class="fill" style="width:${Math.round(step/total*100)}%"></div></div>
+      <div>${step}/${total}</div>
+    </div>
+  `;
+  screen.querySelectorAll('.opt').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const idx = +btn.dataset.i;
+      const opt = q.options[idx];
+      score[opt.score]++; 
+      // small feedback line for teacher use
+      el('#aside').textContent = opt.tip ? opt.tip : "Good choice!";
+      step++;
+      if(step>=QUESTIONS.length) showEnding();
+      else renderQuestion();
+    });
+  });
+}
+
+function bestEnding(){
+  const pairs = Object.entries(score).sort((a,b)=>b[1]-a[1]);
+  // if tie, HEX wins if present (more fun), else first
+  const [top, second] = pairs;
+  if(second && top[1]===second[1]){
+    if(score.HEX===top[1]) return "HEX";
+  }
+  return top[0];
+}
+
+function showEnding(){
+  const key = bestEnding();
+  const end = ENDINGS[key];
+  const moodClass = end.mood==='good' ? 'good' : end.mood==='bad' ? 'bad' : 'neutral';
+
+  const tally = `
+    <div class="small muted">Your tally — Guild: ${score.GUILD} • Hoard: ${score.HOARD} • Hex: ${score.HEX}</div>
+  `;
+
+  screen.innerHTML = `
+    <div class="q">Gnoblin: “The interview is complete!”</div>
+    <div class="ending ${moodClass}">
+      <h3>${end.title}</h3>
+      <p>${end.text.replace(/\n/g,'<br>')}</p>
+    </div>
+    ${tally}
+    <div class="parchment" style="margin-top:12px">
+      <strong>Follow-up speaking tasks</strong>
+      <ol>
+        <li>Would you rather pay <em>fees</em> or wait longer? Why?</li>
+        <li>Use <em>too much / too many / not enough</em> to describe the vault. Example: “There are too many coins for one chest.”</li>
+        <li>Make one Present Perfect line about your banking experience: “I’ve never invested in magic.”</li>
+      </ol>
+    </div>
+  `;
+  el('#restart').style.display='inline-block';
+}
+
+el('#restart').addEventListener('click',()=>{
+  step=0; score.GUILD=0; score.HOARD=0; score.HEX=0;
+  el('#aside').textContent = "Answer to shape the future bank!";
+  renderQuestion();
+});
+
+/* init */
+renderQuestion();
+</script>
+</body>
+</html>
